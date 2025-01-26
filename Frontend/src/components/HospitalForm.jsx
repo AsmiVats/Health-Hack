@@ -5,9 +5,7 @@ const HospitalForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
-    location: "",
-    specialization: "",
-    phone: "",
+    doctors:[]
   });
 
   const handleChange = (e) => {
