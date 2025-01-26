@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const MONGO_URL = process.env.MONGO_URL;
 
 const ConnectDB = async () => {
     try {
-        const conn = await mongoose.connect(
-            'mongodb+srv://rishavbhardwaz32:hello123@eventrue.g2og6.mongodb.net/?retryWrites=true&w=majority&appName=Eventrue',); // ye eventure ka mongourl hai
+        const conn = await mongoose.connect(MONGO_URL); 
 
         console.log(`MongoDB Connected`);
     } catch (error) {
