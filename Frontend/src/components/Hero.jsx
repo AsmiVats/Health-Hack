@@ -62,7 +62,7 @@ function Hero() {
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-black rounded-b-2xl"></div>
                 <div className="flex items-center justify-center h-full">
                   <Bot size={48} className="text-[#7c3aed]" />
-                  <span className="ml-2 text-xl font-semibold">InfoBot</span>
+                  <span className="ml-2 text-xl font-semibold">MediCal</span>
                 </div>
               </div>
               <div className="w-[300px] h-[600px] bg-white rounded-[40px] border-8 border-black relative shadow-xl transform translate-y-8 rotate-[5deg]">
