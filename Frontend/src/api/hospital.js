@@ -1,3 +1,4 @@
+import { api } from "../config/axiosConfig";
 export const HOSPITAL = {
     Post: async (data) => {
       try {

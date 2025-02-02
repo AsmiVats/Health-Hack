@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const ConnectDB = require("./db");
 const callRoutes = require('./routes/call');
 const hospitalRoutes = require('./routes/hospital')
+const doctorsRoutes = require('./routes/doctor')
 const chatBotRoutes=require('./routes/chatbot')
 
 
@@ -15,6 +16,7 @@ ConnectDB();
 
 app.use('/api', callRoutes);
 app.use('/hospital',hospitalRoutes);
+app.use('/doctors',doctorsRoutes);
 app.use('/chat',chatBotRoutes);
 
 
