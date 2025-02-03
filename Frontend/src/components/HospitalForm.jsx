@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { HOSPITAL } from "../api/hospital";
 
 const HospitalForm = () => {
   const navigate = useNavigate();
+  const [hospitalId,setHospitalId] = useState("");
+  const [hospitalName,setHospitalName] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     location: "",
@@ -17,11 +20,24 @@ const HospitalForm = () => {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Hospital Form Data:", formData);
-    navigate("/doctor-form");
+    try{
+      const response = await HOSPITAL.Post(formData);
+      if(response){
+        setHospitalId(response._id);
+        setHospitalName(response.name);
+        navigate("/doctor-form", { state: { hospitalId: response._id, hospitalName: response.name } });
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
   };
+
+
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
