@@ -16,7 +16,7 @@ function Hero() {
             About Us
           </button>
           <button className="px-4 py-2 rounded-full bg-[#7c3aed] text-white hover:bg-[#6d28d9] transition-colors">
-            Register Your Hospital
+            <a href="/hospital-form">Register Your Clinic</a>
           </button>
         </div>
       </nav>
