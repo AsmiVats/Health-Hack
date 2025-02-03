@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 const DoctorForm = () => {
   const [doctors, setDoctors] = useState([
@@ -30,8 +31,18 @@ const DoctorForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <motion.div 
+      className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      <motion.div 
+        className="max-w-md w-full space-y-8"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Doctor Details
@@ -39,18 +50,18 @@ const DoctorForm = () => {
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {doctors.map((doctor, index) => (
-            <div
+            <motion.div
               key={index}
               className="rounded-md shadow-sm space-y-4 border p-4 mb-4 bg-white"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
             >
               <h3 className="text-lg font-semibold text-gray-800">
                 Doctor {index + 1}
               </h3>
               <div className="mb-4">
-                <label
-                  htmlFor={`name-${index}`}
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label htmlFor={`name-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
                   Doctor Name
                 </label>
                 <input
@@ -64,10 +75,7 @@ const DoctorForm = () => {
                 />
               </div>
               <div className="mb-4">
-                <label
-                  htmlFor={`specialization-${index}`}
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label htmlFor={`specialization-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
                   Specialization
                 </label>
                 <input
@@ -81,10 +89,7 @@ const DoctorForm = () => {
                 />
               </div>
               <div className="mb-4">
-                <label
-                  htmlFor={`phone-${index}`}
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label htmlFor={`phone-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
                   Phone
                 </label>
                 <input
@@ -98,10 +103,7 @@ const DoctorForm = () => {
                 />
               </div>
               <div className="mb-4">
-                <label
-                  htmlFor={`availability-${index}`}
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
+                <label htmlFor={`availability-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
                   Availability
                 </label>
                 <input
@@ -114,35 +116,35 @@ const DoctorForm = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
-              <button
-                type="button"
-                onClick={() => handleRemoveDoctor(index)}
-                className="text-red-600 hover:underline"
-              >
+              <button type="button" onClick={() => handleRemoveDoctor(index)} className="text-red-600 hover:underline">
                 Remove Doctor
               </button>
-            </div>
+            </motion.div>
           ))}
           <div className="space-y-4">
-            <button
+            <motion.button
               type="button"
               onClick={handleAddDoctor}
               className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Add Another Doctor
-            </button>
+            </motion.button>
           </div>
           <div>
-            <button
+            <motion.button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Submit All Doctors
-            </button>
+            </motion.button>
           </div>
         </form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
