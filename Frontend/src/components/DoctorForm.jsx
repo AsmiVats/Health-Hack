@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
+import { DOCTOR } from "../api/doctor";
+
 
 const DoctorForm = () => {
+  const location = useLocation();
+  const { hospitalId, hospitalName } = location.state || {};
+
   const [doctors, setDoctors] = useState([
-    { name: "", specialization: "", phone: "", availability: "" },
+    { name: "", specialization: "", phone: "", availability: "",hospitalId: hospitalId},
   ]);
 
   const handleChange = (index, e) => {
@@ -16,7 +22,7 @@ const DoctorForm = () => {
   const handleAddDoctor = () => {
     setDoctors([
       ...doctors,
-      { name: "", specialization: "", phone: "", availability: "" },
+      { name: "", specialization: "", phone: "", availability: "",hospitalId: hospitalId },
     ]);
   };
 
@@ -25,10 +31,22 @@ const DoctorForm = () => {
     setDoctors(updatedDoctors);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Doctors Data:", doctors);
+  
+    try {
+      for (const doctor of doctors) {
+        const response = await DOCTOR.Post(doctor); // sending doctor one by one
+        if (response.success) {
+          console.log("Doctor added:", response);
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
+  
 
   return (
     <motion.div 
@@ -45,7 +63,7 @@ const DoctorForm = () => {
       >
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Doctor Details
+            Doctor Details for {hospitalName}
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
