@@ -5,42 +5,60 @@ import { HOSPITAL } from "../api/hospital";
 
 const HospitalForm = () => {
   const navigate = useNavigate();
-  const [hospitalId,setHospitalId] = useState("");
-  const [hospitalName,setHospitalName] = useState("");
+  const [hospitalId, setHospitalId] = useState("");
+  const [hospitalName, setHospitalName] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     location: "",
     specialization: "",
     phone: "",
-    doctors: []
+    doctors: [],
   });
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Hospital Form Data:", formData);
-    try{
+    try {
       const response = await HOSPITAL.Post(formData);
-      if(response){
+      if (response) {
         setHospitalId(response._id);
         setHospitalName(response.name);
-        navigate("/doctor-form", { state: { hospitalId: response._id, hospitalName: response.name } });
+        setModalMessage("Hospital added successfully!");
+        setShowModal(true);
+        setTimeout(() => {
+          setShowModal(false);
+          navigate("/doctor-form", { state: { hospitalId: response._id, hospitalName: response.name } });
+        }, 2000);
       }
-    }
-    catch (error) {
+    } catch (error) {
+      setModalMessage("Error adding hospital. Please try again.");
+      setShowModal(true);
+      setTimeout(() => setShowModal(false), 2000);
       console.log(error);
     }
   };
 
-
-
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white p-6 rounded-lg shadow-lg text-center"
+          >
+            <p className="text-lg font-semibold">{modalMessage}</p>
+          </motion.div>
+        </div>
+      )}
       <motion.div 
         initial={{ opacity: 0, y: 50 }} 
         animate={{ opacity: 1, y: 0 }} 
@@ -59,7 +77,7 @@ const HospitalForm = () => {
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
-            {['name', 'location', 'specialization', 'phone'].map((field, index) => (
+            {["name", "location", "specialization", "phone"].map((field, index) => (
               <motion.div 
                 key={field}
                 initial={{ opacity: 0, y: 20 }}
@@ -71,7 +89,7 @@ const HospitalForm = () => {
                   {field}
                 </label>
                 <input
-                  type={field === 'phone' ? 'tel' : 'text'}
+                  type={field === "phone" ? "tel" : "text"}
                   name={field}
                   id={field}
                   value={formData[field]}
