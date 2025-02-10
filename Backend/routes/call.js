@@ -6,12 +6,12 @@ require("dotenv").config();
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 router.post("/", async (req, res) => {
-  const { phoneNumber } = req.body;
+  // const { phoneNumber } = req.body;
 
   try {
     const call = await client.calls.create({
       url: "http://demo.twilio.com/docs/voice.xml",
-      to: phoneNumber,
+      to: +917482009445,
       from: process.env.TWILIO_PHONE_NUMBER,
     });
 

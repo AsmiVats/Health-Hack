@@ -20,7 +20,7 @@ const Chatbot = () => {
         phoneNumber: "+1234567890",
       });
 
-      setMessages((prev) => [...prev, { sender: "bot", text: response.data.reply }]);
+      setMessages((prev) => [...prev, { sender: "bot", text: response.data.response }]);
     } catch (error) {
       console.error("Error sending message", error);
     }
