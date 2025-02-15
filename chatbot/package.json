@@ -1,6 +1,5 @@
 {
-  "name": "chatbot",
-  "private": true,
+  "name": "hhsdk-consultant",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
