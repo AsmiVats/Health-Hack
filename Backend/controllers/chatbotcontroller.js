@@ -56,7 +56,7 @@ const handleChatbotResponse = async (req, res) => {
     }
   }
 
-  if (userSessions[userId].count >= 3) {
+  if (userSessions[userId].count >= 4) {
     try {
       botResponse = "I am connecting you with a doctor now. Please wait for the call.";
       await axios.post("http://localhost:3000/call", { phoneNumber });

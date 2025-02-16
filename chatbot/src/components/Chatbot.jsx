@@ -14,7 +14,7 @@ const Chatbot = () => {
     setMessages([...messages, newMessage]);
 
     try {
-      const response = await axios.post("http://localhost:3000/chatbot", {
+      const response = await axios.post("https://hhsdk-backend.onrender.com", {
         message: input,
         userId,
         phoneNumber: "+917482009445",

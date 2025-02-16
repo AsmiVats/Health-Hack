@@ -6,8 +6,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: "./src/components/Chatbot.jsx",
-      name: "ChatbotSDK",
-      fileName: "chatbot-sdk",
+      name: "Chatbot",
+      fileName: "hhsdk-consultant",
     },
     rollupOptions: {
       external: ["react", "react-dom"],

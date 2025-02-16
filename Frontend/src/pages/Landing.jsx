@@ -3,6 +3,8 @@ import Feature from "../components/Features"
 import Stats from "../components/Stats"
 import AllDoctors from "./AllDoctors"
 // import Cta from "../components/Cta"
+import Chatbot from "hhsdk-consultant";
+
 const Landing = () => {
   return (
     <>
@@ -10,6 +12,7 @@ const Landing = () => {
     <Feature />
     <Stats />
     <AllDoctors />
+    <Chatbot/>
     </>
   )
 }
