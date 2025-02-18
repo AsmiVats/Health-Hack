@@ -5,18 +5,18 @@ export default defineConfig({
   plugins: [react()],
   build: {
     lib: {
-      entry: "./src/components/Chatbot.jsx",
-      name: "Chatbot",
-      fileName: "hhsdk-consultant",
+      entry: "src/index.js",
+      name: "hhsdk-consultant",
+      fileName: (format) => `index.${format}.js`
     },
     rollupOptions: {
       external: ["react", "react-dom"],
       output: {
         globals: {
           react: "React",
-          "react-dom": "ReactDOM",
-        },
-      },
-    },
-  },
+          "react-dom": "ReactDOM"
+        }
+      }
+    }
+  }
 });
