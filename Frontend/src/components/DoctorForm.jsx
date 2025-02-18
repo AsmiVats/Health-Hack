@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { DOCTOR } from "../api/doctor";
-
 
 const DoctorForm = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { hospitalId, hospitalName } = location.state || {};
-
   const [doctors, setDoctors] = useState([
-    { name: "", specialization: "", phone: "", availability: "",hospitalId: hospitalId},
+    { name: "", specialization: "", phone: "", availability: "", hospitalId: hospitalId },
   ]);
-
+  const [showPopup, setShowPopup] = useState(false);
   const handleChange = (index, e) => {
     const { name, value } = e.target;
     const updatedDoctors = [...doctors];
@@ -22,7 +21,7 @@ const DoctorForm = () => {
   const handleAddDoctor = () => {
     setDoctors([
       ...doctors,
-      { name: "", specialization: "", phone: "", availability: "",hospitalId: hospitalId },
+      { name: "", specialization: "", phone: "", availability: "", hospitalId: hospitalId },
     ]);
   };
 
@@ -34,19 +33,23 @@ const DoctorForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Doctors Data:", doctors);
-  
+
     try {
       for (const doctor of doctors) {
-        const response = await DOCTOR.Post(doctor); // sending doctor one by one
+        const response = await DOCTOR.Post(doctor);
         if (response.success) {
           console.log("Doctor added:", response);
         }
       }
+      setShowPopup(true);
+      setTimeout(() => {
+        setShowPopup(false);
+        navigate("/");
+      }, 2000);
     } catch (e) {
       console.log(e);
     }
   };
-  
 
   return (
     <motion.div 
@@ -75,93 +78,63 @@ const DoctorForm = () => {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-lg font-semibold text-gray-800">
-                Doctor {index + 1}
-              </h3>
-              <div className="mb-4">
-                <label htmlFor={`name-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                  Doctor Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  id={`name-${index}`}
-                  value={doctor.name}
-                  onChange={(e) => handleChange(index, e)}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor={`specialization-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                  Specialization
-                </label>
-                <input
-                  type="text"
-                  name="specialization"
-                  id={`specialization-${index}`}
-                  value={doctor.specialization}
-                  onChange={(e) => handleChange(index, e)}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor={`phone-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  id={`phone-${index}`}
-                  value={doctor.phone}
-                  onChange={(e) => handleChange(index, e)}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor={`availability-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                  Availability
-                </label>
-                <input
-                  type="text"
-                  name="availability"
-                  id={`availability-${index}`}
-                  value={doctor.availability}
-                  onChange={(e) => handleChange(index, e)}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
+              <h3 className="text-lg font-semibold text-gray-800">Doctor {index + 1}</h3>
+              <input
+                type="text"
+                name="name"
+                value={doctor.name}
+                onChange={(e) => handleChange(index, e)}
+                required
+                placeholder="Doctor Name"
+                className="w-full px-3 py-2 border rounded-md shadow-sm"
+              />
+              <input
+                type="text"
+                name="specialization"
+                value={doctor.specialization}
+                onChange={(e) => handleChange(index, e)}
+                required
+                placeholder="Specialization"
+                className="w-full px-3 py-2 border rounded-md shadow-sm"
+              />
+              <input
+                type="tel"
+                name="phone"
+                value={doctor.phone}
+                onChange={(e) => handleChange(index, e)}
+                required
+                placeholder="Phone"
+                className="w-full px-3 py-2 border rounded-md shadow-sm"
+              />
+              <input
+                type="text"
+                name="availability"
+                value={doctor.availability}
+                onChange={(e) => handleChange(index, e)}
+                required
+                placeholder="Availability"
+                className="w-full px-3 py-2 border rounded-md shadow-sm"
+              />
               <button type="button" onClick={() => handleRemoveDoctor(index)} className="text-red-600 hover:underline">
                 Remove Doctor
               </button>
             </motion.div>
           ))}
-          <div className="space-y-4">
-            <motion.button
-              type="button"
-              onClick={handleAddDoctor}
-              className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Add Another Doctor
-            </motion.button>
-          </div>
-          <div>
-            <motion.button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Submit All Doctors
-            </motion.button>
-          </div>
+          <button type="button" onClick={handleAddDoctor} className="w-full py-2 bg-blue-600 text-white rounded-md">
+            Add Another Doctor
+          </button>
+          <button type="submit" className="w-full py-2 bg-green-600 text-white rounded-md">
+            Submit All Doctors
+          </button>
         </form>
       </motion.div>
+      {showPopup && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-md shadow-md text-center">
+            <p className="text-lg font-semibold">Saved Successfully!</p>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 };
